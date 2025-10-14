@@ -60,7 +60,7 @@ Node* deletehead(Node* head){
     if(head == NULL)  return head;
     Node* temp = head;
     head = head->next;
-    free(temp);
+    delete temp;
     return head;
 }
 
@@ -84,7 +84,7 @@ Node * deleteindex(Node* head,int ind){
     if(ind == 1){
         Node* temp = head;
         head = head->next;
-        free(temp);
+        delete temp;
         return head;
     }
     Node* temp = head;
@@ -94,7 +94,7 @@ Node * deleteindex(Node* head,int ind){
         cnt++;
         if(cnt == ind){
             prev->next = temp->next;
-            free(temp);
+            delete temp;
             return head;
         }
         prev = temp;
@@ -109,7 +109,7 @@ Node * removeELE(Node* head,int ele){
     if(head->data == ele){
         Node* temp = head;
         head = head->next;
-        free(temp);
+        delete temp;
         return head;
     }
     Node* temp = head;
@@ -117,7 +117,7 @@ Node * removeELE(Node* head,int ele){
     while(temp != NULL){
         if(temp->data == ele){
             prev->next = temp->next;
-            free(temp);
+            delete temp;
             return head;
         }
         prev = temp;
