@@ -714,7 +714,7 @@ Node* addOne(Node* head) {
             curr->data += 1;
             break;
         }
-        if(curr->data == 9){
+        else if(curr->data == 9){
             carry = 1;
             curr->data = 0;
         }
@@ -732,11 +732,8 @@ Node* addOne(Node* head) {
         temp->next = prev;
         prev = temp;
         temp = ahead;
-        
     }
-
-    return prev;
-        
+    return prev;   
     }
 
 //  Method 2
@@ -765,6 +762,256 @@ Node* addOne(Node* head) {
     }
     return head;
 }
+
+// Add two numbers in LL
+// Method 1
+// traverse both and store sum in dummynode and carry in int
+// SC O(max(N1+N2))
+// TC O(MAX(N1+N2))
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    ListNode* temp1 = l1;
+    ListNode* temp2 = l2;
+    ListNode* head = new ListNode(-1);
+    ListNode*temp = head;
+
+    int carry = 0;
+    while(temp1 && temp2){
+        temp->next = new ListNode(0);
+        temp = temp->next;
+        temp->val = temp1->val + temp2->val + carry;
+        if(temp->val < 10){
+            carry = 0;
+        }
+        else{
+            carry = 1;
+            temp->val = temp->val-10;
+        }
+        temp1 = temp1->next;
+        temp2 = temp2->next;
+        
+    }
+    while(temp1 != NULL){
+        temp->next = new ListNode(0);
+        temp = temp->next;
+        temp->val = temp1->val+carry;
+        if(temp->val < 10){
+            carry = 0;
+        }
+        else{
+            carry = 1;
+            temp->val = temp->val-10;
+        }
+        temp1 = temp1->next;
+    }
+    while(temp2 != NULL){
+        temp->next = new ListNode(0);
+        temp = temp->next;
+        temp->val = temp2->val+carry;
+        if(temp->val < 10){
+            carry = 0;
+        }
+        else{
+            carry = 1;
+            temp->val = temp->val-10;
+        }
+        temp2 = temp2->next;
+    }
+    if(carry == 1){
+        temp->next = new ListNode(1);
+    }
+    return head->next;
+}
+
+// SHORTER CODE
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    ListNode* dummy = new ListNode(-1);
+    ListNode* curr = dummy;
+    int carry = 0;
+
+    while (l1 || l2) {
+        int sum = carry;
+        if (l1) {
+            sum += l1->val;
+            l1 = l1->next;
+        }
+        if (l2) {
+            sum += l2->val;
+            l2 = l2->next;
+        }
+        curr->next = new ListNode(sum % 10);
+        curr = curr->next;
+        carry = sum / 10;
+    }
+    if (carry) {
+        curr->next = new ListNode(carry);
+    }
+    return dummy->next;
+}
+
+
+// Sort a linked list of 0s,1s and 2s 
+
+// Method 1
+// Count frequency of 0,1 and 2 and replace them in order
+// SC O(N)
+// TC O(2N)
+Node* segregate(Node* head) {
+    Node*temp = head;
+    int zero = 0;
+    int one = 0;
+    int two = 0;
+    while(temp){
+        if(temp->data == 0){
+            zero++;
+        }
+        if(temp->data == 1){
+            one++;
+        }
+        two++;
+        
+        temp = temp->next;
+    }
+    temp = head;
+    while(temp){
+        if(temp->data = 0;){
+        zero--;
+        temp = temp->next;
+        }
+
+        else if(temp->data = 1;){
+        one--;
+        temp = temp->next;
+        }
+    
+        else{
+        two--;
+        temp = temp->next;
+        }
+    }
+    
+    return head;
+    
+}
+
+// Method 2
+// REARRANGING THE POINTERS USING DUMMYNODES
+// SC O(1)
+// TC O(N)
+Node* segregate(Node* head) {
+    Node*temp = head;
+    Node* zerohead = new Node(-1);
+    Node* zero = zerohead;
+    Node* onehead = new Node(-1);
+    Node* one = onehead;
+    Node* twohead = new Node(-1);
+    Node* two = twohead;
+    while(temp){
+        if(temp->data == 0){
+            zero->next = temp;
+            zero = zero->next;
+        }
+        else if(temp->data == 1){
+            one->next = temp;
+            one = one->next;
+        }
+        else{
+            two->next = temp;
+            two = two->next;
+        }
+        temp = temp->next;
+        
+    }
+    if(onehead->next == NULL){
+        zero->next = twohead->next;
+        two->next = NULL;
+        return zerohead->next;
+    }
+    zero->next = onehead->next;
+    one->next = twohead->next;
+    two->next = NULL;
+    
+    Node* newhead = zerohead->next;
+    
+    delete onehead;
+    delete twohead;
+    delete zerohead;
+    
+    return newhead;
+    
+}
+
+
+// Delete all occurrences of a key in DLL
+
+// TC O(N)
+// SC O(1)
+Node * deleteAllOccurrences (Node* head, int k) {
+    Node* temp = head;
+    while (temp != NULL) {
+        if (temp->data == k) {
+            // if this is the head of the LL
+            // then post deletion the head will be updated
+            if (temp == head){
+            head = temp->next;
+            }
+            Node* nextNode = temp->next;
+            Node*prevNode = temp->prev;
+            if(nextNode != NULL) nextNode->prev = prevNode;
+            if(prevNode != NULL) prevNode->next = nextNode;
+            free (temp) ;
+            temp = nextNode;
+        }
+        else {
+            temp = temp->next;
+            return head;
+        }
+    }
+}
+
+
+// Find pairs with given sum in doubly linked list
+// One pointer at the front and one at the end
+// TC O( 3N/2 ) 
+// SC O(1)
+vector<pair<int, int>> findPairsWithGivenSum(Node *head, int target) {
+        // code here
+        vector<pair<int, int>> vec;
+        Node* start = head;
+        Node* end = head;
+        // Node* middle = head;
+        while(end != NULL && end->next != NULL){
+            if(end->next->next == NULL){
+                end = end->next;
+                // middle = middle->next;
+            }
+            else{
+                // middle = middle->next;
+                end = end->next->next;
+            }
+        }
+        while(start->data < end->data){
+            int sum = start->data + end->data;
+            if(sum == target){
+                vec.emplace_back(start->data,end->data);
+                start = start->next;
+                end = end->prev;
+            }
+                
+            else if(sum > target){
+                end = end->prev;
+            }
+            else{
+                start = start->next;
+            }
+        }
+        return vec;
+    }
+
+
+
+
+
+
 
 int  main(){
     return 0;
