@@ -14,7 +14,7 @@ bool isPowerOfTwo(int n) {
     return false;
 }
 
-// Divide 2 integers without using odd
+// Divide two integers without using multiplication, division and mod operator
 
 // Method 1
 // TC O(INT_MAX)
@@ -53,7 +53,7 @@ int quotient = 0;
 // add the power of 2 to the quotient
 // TC O(log(N) ^2)
 // SC O(1)
-int divide(int dividend, int divisor) {
+int Divide(int dividend, int divisor) {
         if(dividend == divisor)
             return 1;
         if (divisor == 0) {
@@ -72,7 +72,7 @@ int divide(int dividend, int divisor) {
 
         while(absDividend >= absDivisor){      // TC log base2 (N)
             int cnt = 0;
-            while(absDividend >= absDivisor<<(cnt+1)){     // // TC log base2 (N)
+            while(absDividend >= absDivisor<<(cnt+1)){      // TC log base2 (N)
                 cnt++;
             }
             absDividend -= (absDivisor<<cnt);
@@ -84,7 +84,78 @@ int divide(int dividend, int divisor) {
             return -quotient; 
         return quotient;
     }
+
+// Count number of bits to be flipped to convert A to B
+// Use xor operator
+// TC O(31)
+// SC O(1)
+
+int minBitFlips(int start, int goal) {
+    int diff = start^goal;
+    int cnt = 0;
+    for(int i = 0;i <=31; i++){
+        if(diff & (1<<i)){
+            cnt++;
+        }
+    }
+    return cnt;
+}
+
+// TC O(log(start^goal))
+// SC O(1)
+int minBitFlips(int start, int goal) {
+    int diff = start^goal;
+    int cnt = 0;
+    while(diff != 0){
+        if(diff%2 == 1){
+            cnt++;
+        }
+        diff = diff/2;
+    }
+    return cnt;
+}
+
+// Find the number that appears odd number of times
+
+// Method 1
+// Hash array
+// TC O(N) n is the size of nums
+// SC O(60001)
+// Use unordered map not vector
+int singleNumber(vector<int>& nums) {
+    int n = nums.size();
+    vector<int> hash(60001,0);
+    for(int i = 0;i < n ;i++){
+        int ele = nums[i]+30000;
+        hash[ele]++;
+    }
+    for(int i = 0;i < hash.size() ;i++){
+        if(hash[i]%2 == 1){
+            return i - 30000;
+        }
+    }
+    return -1;
+
+}
+
+// Method 2
+// XOR
+// TC O(N)
+// SC O(1)
+int singleNumber(vector<int>& nums) {
+    int n = nums.size();
+    int single = 0;
+    for(int i = 0;i<n;i++){
+        single = single^nums[i];
+    }
+    return single;
+
+}
+
 int main(){
+    
+    int a = minBitFlips(10,7);
+    cout << a;
 
 
     return 0;

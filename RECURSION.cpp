@@ -97,7 +97,7 @@ int func3(int n){
 // Q Reverse an array.
 void func4(int arr[],int s,int n=0){ // s is the length of the array
     
-    if((s-1)/2 <= n){
+    if((s-1)/2 < n){
         return;
     }
 
@@ -130,7 +130,7 @@ void func6(string &str, int ss, int i = 0) {
 // Q Fibonacci series
 int func7(int n){
     if(n <= 1){
-        return 1;
+        return n;
     }
     return func7(n-1) + func7(n-2);
 }
