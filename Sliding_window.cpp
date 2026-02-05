@@ -434,7 +434,7 @@ int numSubarraysWithSumlessthan(vector<int>& nums, int goal) {
             if(nums[left] == 1)    sum--;
             left++;
         }
-        count = count + r - left + 1;
+        count = count + r - left + 1;      // no. of new subarrays generated after every new element added will be the length of the valid window 
     }
     return count;
 }
@@ -495,6 +495,130 @@ int numberOfSubstrings(string s) {
     }
     return cnt;
 }
+
+
+// Q Max Points you can obtain from the cards (numbers can be drawn from both ends at the end the sum should be largest) 
+
+// Method 1
+// Finding the min value window (subtract min value window from total sum of array)
+// TC O(N)
+// SC O(1)
+int maxScore(vector<int>& cardPoints, int k) {
+    int n = cardPoints.size();
+    int l = 0;
+    int min_sum = INT_MAX;   // min window sum
+    int win_sum = 0;   // Current window sum
+    int total_sum = 0;   // total sum of the array
+    // if(n == k){
+    //     int sum = accumulate(cardPoints.begin(), cardPoints.end(), 0);
+    //     return sum;
+    // }
+    for(int r = 0;r < n;r++){
+        total_sum = total_sum + cardPoints[r] ;
+        win_sum += cardPoints[r] ;
+        if(r-l+1 > n-k){
+            win_sum -= cardPoints[l];
+            l++;
+        }
+        if(r-l+1 == n-k){
+            min_sum = min(min_sum,win_sum);
+        }
+    }
+    return total_sum - min_sum;
+}
+
+// Method 2
+// TC O(2*K)
+// SC O(1)
+int maxScore(vector<int>& cardPoints, int k) {
+    int n = cardPoints.size();
+    int l = 0;
+    int r = n-1;
+    int max_sum = 0;
+    int lsum = 0;
+    int rsum = 0;
+    while(l < k){
+        lsum += cardPoints[l];
+        l++;
+    }
+    max_sum = lsum;
+    for(int i = k-1;i >=0;i--){
+        lsum -= cardPoints[i]; 
+        rsum += cardPoints[r];
+        r--;
+        max_sum = max(max_sum,rsum + lsum);
+    }
+    return max_sum;
+}
+
+
+// Q Longest Substring with K Uniques
+
+// Method 1 create all sub arrays
+
+// Method 2
+// Using map to store number of unique characters and frequency
+// TC O(N)
+// SC(256) there are 256 characters in total
+
+int longestKSubstr(string &s, int k) {
+    int n = s.size();
+    int l = 0;
+    int length = -1;
+    unordered_map<int,int> m;
+    for(int r = 0;r < n;r++){
+        m[s[r]]++;
+        if(m.size() > k){
+            m[s[l]]--;
+            if(m[s[l]] == 0){
+                m.erase(s[l]);
+            }
+            l++;
+        }
+        
+        if(m.size() == k){
+            length = max(length,r-l+1);
+        }
+        
+    }
+    return length;
+    
+}
+
+// Q Subarray with k different integers
+
+// Method 1 (generate all subarrays)
+
+// Method 2
+// Find subarrays with distinct characters less than equal to k and k-1 and subtract them to find req no. of subarrays
+// TC O(2*2N) 
+// SC O(2*N)
+int subarraysWithKDistinctlessthanequal(vector<int>& nums, int k) {
+    int n = nums.size();
+    int l = 0;
+    int cnt = 0;
+    unordered_map<int,int> m;
+    for(int r = 0;r < n;r++){
+        m[nums[r]]++;
+        while(m.size() > k){
+            m[nums[l]]--;
+            if(m[nums[l]] == 0){
+                m.erase(nums[l]);
+            }
+            l++;
+        } 
+        cnt += r-l+1;                    // no. of new subarrays generated after every new element added will be the length of the valid window 
+    } 
+    return cnt;
+}
+int subarraysWithKDistinct(vector<int>& nums, int k){
+    int x = subarraysWithKDistinctlessthanequal(nums,k);
+    int y = subarraysWithKDistinctlessthanequal(nums,k-1);
+    // cout << x << " " << y;
+    return x-y;
+}
+
+
 
 
 int main(){
