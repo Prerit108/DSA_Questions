@@ -526,7 +526,6 @@ vector<string> ratInMaze(vector<vector<int>>& maze) {
 
 
 
-
 int main(){
 
 
