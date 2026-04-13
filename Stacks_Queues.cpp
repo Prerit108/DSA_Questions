@@ -685,7 +685,7 @@ vector<int> nextsmallest(vector<int>& arr){     //TC O(2N)
         return nse;
 
     }
-
+//  prev smaller and equal
 vector<int> prevsmaller(vector<int>& arr){       // TC O(2N)
     int n = arr.size();
     vector<int> pse(n,-1);
@@ -909,6 +909,66 @@ int trap(vector<int>& height) {
         }
     } 
     return sum;
+}
+
+
+// Q Largest Rectangle 
+int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size();
+        int marea = 0;
+        vector<int> nse = nextsmaller(heights);
+        vector<int> pse = prevsmaller(heights);
+        for(int i = 0; i < n; i++) {
+            int left = pse[i];
+            int right = nse[i];
+            if(right == -1) right = n;
+            int width = right - left - 1;
+            int area = heights[i] * width;
+            marea = max(marea, area);
+        }
+
+        return marea;
+    }
+
+
+// Maximal Rectangle
+int largestRectangleArea(vector<int>& heights) {
+        int n = heights.size();
+        int marea = 0;
+        vector<int> nse = nextsmaller(heights);
+        vector<int> pse = prevsmaller(heights);
+        for(int i = 0; i < n; i++) {
+            int left = pse[i];
+            int right = nse[i];
+            if(right == -1) right = n;
+            int width = right - left - 1;
+            int area = heights[i] * width;
+            marea = max(marea, area);
+        }
+
+        return marea;
+    }   
+    
+int maximalRectangle(vector<vector<char>>& matrix) {
+    int n = matrix.size();
+    int m = matrix[0].size();
+    int marea = 0;
+    vector<int> vec(m,0);
+    for(int i = 0;i < n;i++){
+        for(int j = 0;j < m;j++){
+            if(matrix[i][j] == '1'){
+                vec[j]++;
+            }
+            else {
+                vec[j] = 0;
+            }
+
+        }
+        int area = largestRectangleArea(vec);
+        marea = max(marea,area);
+
+    }
+    return marea;
 }
 
 

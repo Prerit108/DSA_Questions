@@ -885,8 +885,6 @@ vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
     }
 
 
-
-
 // Q Burning Tree
 // SC O(3*N)
 // TC O(2*N)
@@ -1029,65 +1027,88 @@ string serialize(TreeNode* root) {
             if (it != NULL) {
                 string num = to_string(it->val);
                 str.append(num + " ");
-                if (it->left != NULL)
-                    q.push(it->left);
-                else
-                    q.push(NULL);
-                if (it->right != NULL)
-                    q.push(it->right);
-                else
-                    q.push(NULL);
+                q.push(it->left);
+                q.push(it->right);              
             } else {
                 str.append("n ");
             }
         }
     }
-    // for(auto it : str){
-    //     cout << it;
-    // }
+
     return str;
 }
 
 // Decodes your encoded data to tree.
 TreeNode* deserialize(string data) {
-        if (data.empty())
-            return NULL;
+    if (data.empty())
+        return NULL;
 
-        // Split the string by spaces
-        vector<string> tokens;
-        stringstream ss(data);
-        string temp;
-        while (ss >> temp) {
-            tokens.push_back(temp);
-        }
-
-        // First token is the root
-        TreeNode* root = new TreeNode(stoi(tokens[0]));
-        queue<TreeNode*> q;
-        q.push(root);
-
-        int i = 1; // index for tokens
-        while (!q.empty() && i < tokens.size()) {
-            TreeNode* node = q.front();
-            q.pop();
-
-            // Left child
-            if (tokens[i] != "n") {
-                node->left = new TreeNode(stoi(tokens[i]));
-                q.push(node->left);
-            }
-            i++;
-
-            // Right child
-            if (i < tokens.size() && tokens[i] != "n") {
-                node->right = new TreeNode(stoi(tokens[i]));
-                q.push(node->right);
-            }
-            i++;
-        }
-
-        return root;
+    // Split the string by spaces
+    vector<string> tokens;
+    stringstream ss(data);
+    string temp;
+    while (ss >> temp) {
+        tokens.push_back(temp);
     }
 
+    // First token is the root
+    TreeNode* root = new TreeNode(stoi(tokens[0]));
+    queue<TreeNode*> q;
+    q.push(root);
 
+    int i = 1; // index for tokens
+    while (!q.empty() && i < tokens.size()) {
+        TreeNode* node = q.front();
+        q.pop();
+
+        // Left child
+        if (tokens[i] != "n") {
+            node->left = new TreeNode(stoi(tokens[i]));
+            q.push(node->left);
+        }
+        i++;
+
+        // Right child
+        if (i < tokens.size() && tokens[i] != "n") {
+            node->right = new TreeNode(stoi(tokens[i]));
+            q.push(node->right);
+        }
+        i++;
+    }
+
+    return root;
+}
+
+// TreeNode* deserialize(string data) {
+//     if(data.size() == 0) return NULL;
+//     stringstream s(data);
+//     string str;
+//     getline(s, str, ',');
+//     TreeNode* root = new TreeNode(stoi(str));
+//     queue<TreeNode*> q;
+//     q.push(root);
+//     while(!q.empty()) {
+//         TreeNode* node = q.front();
+//         q.pop();
+//         // Left child
+//         getline(s, str, ',');
+//         if(str == "#") {
+//             node->left = NULL;
+//         } else {
+//             TreeNode* leftNode = new TreeNode(stoi(str));
+//             node->left = leftNode;
+//             q.push(leftNode);
+//         }
+//         // Right child
+//         getline(s, str, ',');
+//         if(str == "#") {
+//             node->right = NULL;
+//         } else {
+//             TreeNode* rightNode = new TreeNode(stoi(str));
+//             node->right = rightNode;
+//             q.push(rightNode);
+//         }
+//     }
+//     return root;
+// }
 

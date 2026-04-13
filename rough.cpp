@@ -84,14 +84,16 @@ void subseq(vector<vector<int>> &vec,int arr[],int n,int ind,vector<int> &vec1){
 
 int main() 
 {
-    vector<int> vec1;
-    vector<vector<int>> vec;
-    int arr[] = {3,1,2};
-    subseq(vec,arr,3,0,vec1);
-    for(auto &v : vec) {
-        for(int x : v) cout << x << " ";
-        cout << endl;
-    }
+    // vector<int> vec1;
+    // vector<vector<int>> vec;
+    // int arr[] = {3,1,2};
+    // subseq(vec,arr,3,0,vec1);
+    // for(auto &v : vec) {
+    //     for(int x : v) cout << x << " ";
+    //     cout << endl;
+    // }
+    int a = 9;
+    cout << 19/10;
 
     return 0; 
 } 

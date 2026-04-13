@@ -319,7 +319,7 @@ ListNode* reverse(ListNode* head){
         }
         return prev;
     }
-bool isPalindrome(ListNode* head) {
+bool isPalindrome(ListNode* head) { 
 ListNode* slow = head;
 ListNode* fast = head;
 while(fast->next != NULL && fast->next->next != NULL){
@@ -968,6 +968,36 @@ Node * deleteAllOccurrences (Node* head, int k) {
     }
 }
 
+// Rotate a LL
+// TC O(N)
+ListNode* rotateRight(ListNode* head, int k) {
+        if(head == NULL || k == 0)   return head;
+        ListNode* temp = head;
+        ListNode* end = head;
+        int cnt = 0;
+        while(temp != NULL){
+            cnt++;
+            if(temp->next == NULL)  end = temp;
+            temp = temp->next;
+        }
+            cout << cnt << endl;
+
+        temp = head;
+        k = cnt - k%cnt;
+        cout << k;
+        if(k == cnt)   return head;
+        ListNode* prev = temp;
+        cnt = 0;
+        while(temp->next != NULL && cnt < k){
+            prev = temp;
+            temp = temp->next;
+            cnt++;
+        }
+        prev->next = NULL;
+        end->next = head;
+        return temp;
+
+    }
 
 // Find pairs with given sum in doubly linked list
 // One pointer at the front and one at the end
@@ -1014,5 +1044,7 @@ vector<pair<int, int>> findPairsWithGivenSum(Node *head, int target) {
 
 
 int  main(){
+    int a = 9;
+    cout << 9/10;
     return 0;
 } 

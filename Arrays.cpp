@@ -34,6 +34,108 @@ void quicksort(int arr[], int low, int high)
   }
 }
 
+// Removing Duplicates from a sorted array
+// TC O(N*log(N) + N)
+// SC O(N)
+// int arr1[] ={1,1,2,2,3,3,3};
+// set<int> set ;
+// for(int i = 0; i<7 ;i++){
+//     set.insert(arr1[i]);        // set takes TC O(log(N))
+// }
+// int index = 0;
+// for(auto it :set){
+//     arr1[index] = it;
+//     index++;
+// }
+
+// TC O(N)
+// SC O(1)
+int removeDuplicates(vector<int> &nums)
+{
+  int k = 1; // take 1st element (k is the number of unique element)
+  for (int i = 1; i < nums.size(); i++)
+  {
+    if (nums[i] != nums[i - 1])
+    {                    // if found another unique element
+      nums[k] = nums[i]; // replace it in the array
+      k++;               // update ni. of unique elements
+    }
+  }
+  return k;
+}
+
+// Left rotate an array by D places
+
+// Method 1
+// TC O(N + D)
+//  SC O(D)
+//  cout << "Enter d";
+//  int d;
+//  cin >>  d;
+//  if(d >= len){
+//      d = d%(len);
+//  }
+//  int arr3[d];
+//  for(int i=0;i <d;i++){
+//      arr3[i]=arr2[i];
+//  }
+//  for(int j = d ; j<len; j++){
+//      arr2[j-d] = arr2[j];
+//  }
+//  for(int i =0;i<d;i++){
+//      arr2[len - d + i] = arr3[i];
+//  }
+
+void rotate(vector<int> &nums, int k)
+{
+  int n = nums.size();
+  k %= n;
+  for (int i = 0; i < (n - k) / 2; i++)
+  { // reverse first n-k elements
+    swap(nums[i], nums[n - k - 1 - i]);
+  }
+  reverse(nums.begin() + (n - k), nums.end()); // reverse last k elements
+
+  // reverse ful array
+  for (int i = 0; i < n / 2; i++)
+  {
+    swap(nums[i], nums[n - i - 1]);
+  }
+}
+
+
+// Rearrange the array in alternating positive and negative items
+vector<int> rearrangeArray(vector<int> &nums)
+{
+  vector<int> pos;
+  vector<int> neg;
+  for (int i = 0; i < nums.size(); i++)
+  {
+    if (nums[i] > 0)
+    {
+      pos.push_back(nums[i]);
+    }
+    else
+    {
+      neg.push_back(nums[i]);
+    }
+  }
+  for (int i = 0; i < nums.size(); i++)
+  {
+    if (i % 2 == 0)
+    {
+      nums[i] = pos[i / 2];
+    }
+    else
+    {
+      nums[i] = neg[i / 2];
+    }
+  }
+  return nums;
+}
+
+
+
 int main()
 {
 
@@ -100,39 +202,6 @@ int main()
   //     }
   // }
 
-  // Removing Duplicates from a sorted array
-
-  // TC O(N*log(N) + N)
-  // SC O(N)
-  // int arr1[] ={1,1,2,2,3,3,3};
-  // set<int> set ;
-  // for(int i = 0; i<7 ;i++){
-  //     set.insert(arr1[i]);        // set takes TC O(log(N))
-  // }
-  // int index = 0;
-  // for(auto it :set){
-  //     arr1[index] = it;
-  //     index++;
-  // }
-
-  // TC O(N)
-  // SC O(1)
-  // int cnt = 0;
-  // int element = arr1[0];
-  // for(int i =1; i < 7;i++){
-  //     if(element != arr1[i]){
-  //         cnt++;
-  //         element = arr1[i];
-  //         arr1[cnt] = arr1[i];
-  //     }
-  //     else {
-  //         arr1[i] = 0;
-  //     }
-  // }
-  // for(int i =0;i<7;i++){
-  //     cout << arr1[i] << " ";
-  // }
-
   // Left rotate an array by 1 place.
   // TC O(N)
   // int arr2[] ={1,2,3,4,5,6,7,8};
@@ -145,47 +214,6 @@ int main()
   // for(int i =0;i<len;i++){
   //     cout << arr2[i];
   //     cout << " ";
-  // }
-
-  // Left rotate an array by D places
-
-  // Method 1
-  // TC O(N + D)
-  //  SC O(D)
-  //  cout << "Enter d";
-  //  int d;
-  //  cin >>  d;
-  //  if(d >= len){
-  //      d = d%(len);
-  //  }
-  //  int arr3[d];
-  //  for(int i=0;i <d;i++){
-  //      arr3[i]=arr2[i];
-  //  }
-  //  for(int j = d ; j<len; j++){
-  //      arr2[j-d] = arr2[j];
-  //  }
-  //  for(int i =0;i<d;i++){
-  //      arr2[len - d + i] = arr3[i];
-  //  }
-
-  // Method 2
-  // TC O(2N)
-  // SC O(1)
-  // cout << "Enter d";
-  // int d;
-  // cin >>  d;
-  // if(d >= len){
-  //     d = d%(len);
-  // }
-  // for(int i =0 ; i<d/2;i++){       // Reversing the array upto d index
-  //     swap(arr2[i],arr2[d-i-1]);
-  // }
-  // for(int j =d ;j<len/2; j++){     // Reversing the array from d to end
-  //    swap(arr2[j],arr2[len/2+j-d]);
-  // }
-  // for(int i =0 ; i<len/2;i++){       // Reversing the whole array
-  //     swap(arr2[i],arr2[len-i-1]);
   // }
 
   // Moving all the zeroes to the end of the array
@@ -431,7 +459,7 @@ int main()
   // // Can't use hash array if number of elements exceed 10^6.
   // // In that case "map" or "unordered map" datatype can be used  (map<long long , int>)
 
-  map<long long, int> mp;
+  // map<long long, int> mp;
   // // for the first for loop
   // // TC O(N*log(M)) where N is the length of the array,  M is the size of the map
   // /*The time complexity will be changed depending on which map data structure we are using.
@@ -455,7 +483,6 @@ int main()
   // SC O(1)
   // int xorr = 0;
   // for(int i = 0;i<len;i++){
-
   //     xorr = xorr^arr[i];
   // }
   // cout << xorr;
@@ -499,7 +526,7 @@ int main()
   //     }
   // }
   // cout << longest;
-  
+
   // Method 3 (hashing)(for all integers)
   // TC O(N * log(N)) in case of map
   // TC O(N^2) in the worst case of the unordered map
@@ -1197,7 +1224,7 @@ int main()
   // unordered_map<int, int> hash;
   // int sum = 0;
   // int count = 0;
-  
+
   // Method 1    (Generate all the subarrays)
   // TC O(N^2)
   // for(int i = 0;i<len;i++){
@@ -1210,30 +1237,21 @@ int main()
   //   sum = 0;
   // }
 
-  // Method 2 (Using a hashmap to store the prefix sum and their count) 
+  // Method 2 (Using a hashmap to store the prefix sum and their count)
   // TC O(N*Log(N))
   // SC O(N)
   // hash = {{0,1}};
   // for (int i = 0; i < len; i++){
   //   sum = sum + arr[i];                 // Adding the elements to find sum
   //   count = count + hash[sum-k];        // Adding the number of prefix sum having the value sum - k
-                                           // No. of sum - k will be equal to the number of subarrays with the sum k
+  // No. of sum - k will be equal to the number of subarrays with the sum k
   //   hash[sum]++;                        // updating the prefix sum , it will help us to check how many times a particular value of sum appeared
   // }
   // cout << count;
 
 
 
-
-
-
-
-
-
-
-
-
-
+  
   // for(int i = 0;i < rows;i++){
   //     for(int j = 0;j < colm;j++){
   //         cout << arr[i][j] << " ";
@@ -1250,8 +1268,6 @@ int main()
   //     cout << it;
   //     cout << " ";
   // }
-  
-  
-  
+
   return 0;
 }
