@@ -1,3 +1,7 @@
+#include <bits/stdc++.h>
+#include <iostream>
+using namespace std;
+
 int f(int arr[] , int low ,int high){
     int pindex = low;
     int i = low;

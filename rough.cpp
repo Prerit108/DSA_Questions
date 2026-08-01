@@ -92,8 +92,10 @@ int main()
     //     for(int x : v) cout << x << " ";
     //     cout << endl;
     // }
-    int a = 9;
-    cout << 19/10;
+    string s = "ABCd";
+    s[2] = 'o';
+    cout << s[2] << endl;
+        
 
     return 0; 
 } 

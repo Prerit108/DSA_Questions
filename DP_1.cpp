@@ -82,7 +82,7 @@ int climbStairs(int n) {
     if(n == 0){
         return 1;
     }
-    if(n < 0){
+    if(n < 0){               
         return 0;
     }
     if(mp.find(n) != mp.end()){
@@ -671,6 +671,65 @@ int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
     }
     return prev[cols - 1];
 }
+
+// Minimum Path Sum
+
+// Method  DP
+// TC O(N*M)
+// SC O(N*M + (N-1)+(M-1))    DP space + path length
+
+
+int recursion(vector<vector<int>>& grid,int r,int c,vector<vector<int>>&dp){
+    if(r == 0 && c == 0){
+        return dp[r][c] = grid[r][c];
+    }
+    if(dp[r][c] != -1) return dp[r][c] ;
+    int left = INT_MAX,up= INT_MAX;
+    if(r > 0){
+        up = recursion(grid,r-1,c,dp) + grid[r][c];
+    }
+    if(c > 0){
+        left = recursion(grid,r,c-1,dp) + grid[r][c];
+    }
+    return dp[r][c] = min(left,up);
+
+}
+int minPathSum(vector<vector<int>>& grid) {
+    int r = grid.size();
+    int c = grid[0].size();
+    if(r==1 && c == 1){
+        return grid[r-1][c-1];
+    }
+    vector<vector<int>> dp(r, vector<int>(c,-1));
+    return recursion(grid,r-1,c-1,dp);
+}
+
+
+// Triangle
+
+// Method 1 DP
+int recursion(vector<vector<int>>& triangle,int row,int col,int max_rows,vector<vector<int>> & dp){
+    if(row == max_rows) return dp[row][col] = triangle[row][col];
+
+    if(dp[row][col] != INT_MIN) return dp[row][col];
+
+    int right = INT_MAX, down = INT_MAX;
+
+    right = recursion(triangle,row+1,col+1,max_rows,dp) + triangle[row][col];
+    down = recursion(triangle,row+1,col,max_rows,dp) + triangle[row][col];
+
+    return dp[row][col] = min(right,down);
+
+}
+
+int minimumTotal(vector<vector<int>>& triangle) {
+    int rows = triangle.size();
+    vector<vector<int>> dp (rows,vector<int>(rows,INT_MIN));
+    return recursion(triangle,0,0,rows-1,dp);
+}
+
+
+
 
 int main() {
     int n = 10;
