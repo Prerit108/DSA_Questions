@@ -78,7 +78,6 @@ void subseq(vector<vector<int>> &vec,int arr[],int n,int ind,vector<int> &vec1){
     vec1.emplace_back(arr[ind]);
     subseq(vec,arr,n,ind+1,vec1);
     vec1.pop_back();
-    
 }
 
 
@@ -92,9 +91,12 @@ int main()
     //     for(int x : v) cout << x << " ";
     //     cout << endl;
     // }
-    string s = "ABCd";
-    s[2] = 'o';
-    cout << s[2] << endl;
+    string a = "iopo";
+    char c = 'c';
+    cout << a + c;
+
+
+    
         
 
     return 0; 
